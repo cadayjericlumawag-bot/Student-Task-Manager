@@ -1,0 +1,77 @@
+                    if (isFirebaseUser) {
+                  final user = FirebaseAuth.instance.currentUser;
+                  final email = user?.email;
+                  if (user == null || email == null) {
+                    rootMessenger.showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Unable to change password for this account',
+                        ),
+                      ),
+                    );
+                    return;
+                  }
+
+                  try {
+                    // Reauthenticate with current password
+                    final cred = EmailAuthProvider.credential(
+                      email: email,
+                      password: currentPassword,
+                    );
+                    await user.reauthenticateWithCredential(cred);
+                    await user.updatePassword(newPassword);
+                    
+                    if (!mounted) return;
+                    Navigator.pop(dialogContext);
+                    rootMessenger.showSnackBar(
+                      const SnackBar(
+                        content: Text('Password changed successfully'),
+                      ),
+                    );
+                  } catch (e) {
+                    rootMessenger.showSnackBar(
+                      SnackBar(
+                        content: Text('Error changing password: $e'),
+                      ),
+                    );
+                  }
+                } else {
+                  // Local DB user: update password directly
+                  if (_currentUser == null) {
+                    rootMessenger.showSnackBar(
+                      const SnackBar(content: Text('No local user found')),
+                    );
+                    return;
+                  }
+                  try {
+                    final int id = _currentUser!['id'] as int;
+                    final String idNumber =
+                        _currentUser!['idNumber'] as String? ?? '';
+                    final String fullName =
+                        _currentUser!['fullName'] as String? ?? '';
+                    final String userName =
+                        _currentUser!['userName'] as String? ?? '';
+
+                    await DatabaseHelper.updateUser(
+                      id,
+                      idNumber,
+                      fullName,
+                      userName,
+                      newPassword,
+                    );
+                    
+                    if (!mounted) return;
+                    Navigator.pop(dialogContext);
+                    rootMessenger.showSnackBar(
+                      const SnackBar(
+                        content: Text('Password changed successfully'),
+                      ),
+                    );
+                  } catch (e) {
+                    rootMessenger.showSnackBar(
+                      SnackBar(
+                        content: Text('Error changing password: $e'),
+                      ),
+                    );
+                  }
+                }

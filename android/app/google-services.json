@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "80911372143",
+    "project_id": "cadayfinalapplicationproject",
+    "storage_bucket": "cadayfinalapplicationproject.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:80911372143:android:5357fa421e2b8a0952e29a",
+        "android_client_info": {
+          "package_name": "com.example.caday_final_applications"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDusgNC3ucf5nW72vZcK3gkhRe00w8oj9Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
